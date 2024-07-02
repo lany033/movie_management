@@ -15,10 +15,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.logEvent
-import com.pop.moviemanagement.ui.MoviesScreen
 import com.pop.moviemanagement.ui.HomeScreen
 import com.pop.moviemanagement.ui.LoginScreen
 import com.pop.moviemanagement.ui.MoreScreen
+import com.pop.moviemanagement.ui.MoviesScreen
 import com.pop.moviemanagement.ui.StoreScreen
 import com.pop.moviemanagement.ui.TheatersScreen
 
