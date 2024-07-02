@@ -1,4 +1,4 @@
-package com.pop.moviemanagement.ui
+package com.pop.moviemanagement
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -13,19 +13,18 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.pop.moviemanagement.ui.navigation.BottomBarNavGraph
 import com.pop.moviemanagement.ui.navigation.BottomBarNavItem
 
 @Composable
-fun MainScreen(analytics: FirebaseAnalytics) {
+fun MainScreen() {
 
     val navController = rememberNavController()
 
     Scaffold(bottomBar = { MyBottomBar(navController = navController) }
     ) {
         BottomBarNavGraph(
-            navController = navController, modifier = Modifier.padding(it), analytics = analytics
+            navController = navController, modifier = Modifier.padding(it)
         )
     }
 }
