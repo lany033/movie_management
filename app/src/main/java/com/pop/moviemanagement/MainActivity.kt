@@ -15,21 +15,24 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import com.pop.moviemanagement.ui.authScreen.SignUpScreen
 import com.pop.moviemanagement.ui.navigation.RootNavigationGraph
 import com.pop.moviemanagement.ui.theme.MovieManagementTheme
+import com.pop.moviemanagement.utils.AnalyticsManager
 
 class MainActivity : ComponentActivity() {
-    private lateinit var analytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        analytics = Firebase.analytics
+
         setContent {
             MovieManagementTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    RootNavigationGraph(navController = rememberNavController(), analytics = analytics)
+                    RootNavigationGraph(this)
+                    //SignUpScreen()
                 }
             }
         }

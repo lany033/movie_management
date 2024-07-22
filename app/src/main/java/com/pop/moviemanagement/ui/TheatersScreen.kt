@@ -4,4 +4,4 @@ import androidx.compose.runtime.Composable
 import com.pop.moviemanagement.utils.AnalyticsManager
 
 @Composable
-fun MoreScreen() {}
+fun TheatersScreen() {}

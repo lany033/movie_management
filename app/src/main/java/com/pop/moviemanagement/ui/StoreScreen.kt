@@ -1,8 +1,8 @@
 package com.pop.moviemanagement.ui
 
 import androidx.compose.runtime.Composable
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.pop.moviemanagement.utils.AnalyticsManager
 
 
 @Composable
-fun StoreScreen(analytics: FirebaseAnalytics) {}
+fun StoreScreen() {}

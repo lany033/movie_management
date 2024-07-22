@@ -16,16 +16,18 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pop.moviemanagement.ui.navigation.BottomBarNavGraph
 import com.pop.moviemanagement.ui.navigation.BottomBarNavItem
+import com.pop.moviemanagement.utils.AnalyticsManager
+import com.pop.moviemanagement.utils.AuthManager
 
 @Composable
-fun MainScreen(analytics: FirebaseAnalytics) {
+fun MainScreen(analytics: AnalyticsManager, authManager: AuthManager) {
 
     val navController = rememberNavController()
 
     Scaffold(bottomBar = { MyBottomBar(navController = navController) }
     ) {
         BottomBarNavGraph(
-            navController = navController, modifier = Modifier.padding(it), analytics = analytics
+            navController = navController, modifier = Modifier.padding(it), analytics = analytics, authManager = authManager
         )
     }
 }
