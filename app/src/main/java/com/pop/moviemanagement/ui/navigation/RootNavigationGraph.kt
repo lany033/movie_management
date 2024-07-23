@@ -18,7 +18,7 @@ import com.pop.moviemanagement.utils.AuthManager
 @Composable
 fun RootNavigationGraph(context: Context, navController: NavHostController =  rememberNavController()) {
     var analytics: AnalyticsManager = AnalyticsManager(context)
-    val authManager: AuthManager = AuthManager()
+    val authManager: AuthManager = AuthManager(context)
 
     //val user: FirebaseUser? = authManager.getCurrentUser()
 

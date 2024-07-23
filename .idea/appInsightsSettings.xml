@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.pop.moviemanagement" />
+                  <option name="mobileSdkAppId" value="1:202511131181:android:70c6f7ee3498a20b69cea4" />
+                  <option name="projectId" value="movie-management-10d12" />
+                  <option name="projectNumber" value="202511131181" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
