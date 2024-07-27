@@ -1,15 +1,21 @@
 package com.pop.moviemanagement.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -36,6 +42,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.LightGray
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -51,6 +60,7 @@ import com.pop.moviemanagement.R
 import com.pop.moviemanagement.ui.navigation.AuthGraph
 import com.pop.moviemanagement.ui.navigation.BottomBarNavItem
 import com.pop.moviemanagement.ui.navigation.TrackScreen
+import com.pop.moviemanagement.ui.theme.PurpleGrey40
 import com.pop.moviemanagement.utils.AnalyticsManager
 import com.pop.moviemanagement.utils.AuthManager
 
@@ -91,6 +101,7 @@ fun HomeScreen(
                 .padding(12.dp)
         ) {
             Text(text = "Home")
+            HorizontalPagerHomeScreen()
             Box() {
                 if (showDialog) {
                     LogoutDialog(onConfirmLogout = {
@@ -192,4 +203,36 @@ fun MyTopBar(
         
     )
 }
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun HorizontalPagerHomeScreen(){
+
+    val pagerState = rememberPagerState(pageCount = {3})
+
+    Card {
+        HorizontalPager(state = pagerState, pageSize = PageSize.Fill) {
+
+        }
+        Row(
+            Modifier
+                .height(30.dp)
+                .fillMaxWidth()
+                .background(Color.Transparent),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            repeat(3) { iteration ->
+                val color =
+                    if (pagerState.currentPage == iteration) White else LightGray
+                Box(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .background(color, CircleShape)
+                        .size(10.dp)
+                )
+            }
+        }
+    }
+}
+
 
