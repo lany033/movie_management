@@ -31,12 +31,10 @@ import com.pop.moviemanagement.utils.AuthManager
 @Composable
 fun BottomBarNavGraph(
     navController: NavHostController,
-    modifier: Modifier,
     analytics: AnalyticsManager,
     authManager: AuthManager
 ) {
     NavHost(
-        modifier = modifier,
         navController = navController,
         startDestination = BottomBarNavItem.Home.route
     ) {

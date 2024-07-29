@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,7 @@ import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,24 +42,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -106,9 +103,10 @@ fun HomeScreen(
             onClickLogout = { onclickLogout() }
         )
     }) {
-        Column(
+        Card(
             modifier = Modifier
                 .padding(it)
+                .fillMaxSize(), shape = RectangleShape
         ) {
             HorizontalPagerHomeScreen(state.movies)
             Box() {
@@ -217,46 +215,51 @@ fun MyTopBar(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalPagerHomeScreen(state: List<Movie>) {
+fun HorizontalPagerHomeScreen(movieList: List<Movie>) {
 
-    val pagerState = rememberPagerState(pageCount = { state.size })
+    val movieListPopularity = movieList.filter { it.vote_average > 7.5 }
+    val pagerState = rememberPagerState(pageCount = { movieListPopularity.size })
 
-    Card(modifier = Modifier.fillMaxSize(), shape = RectangleShape) {
+    Box(modifier = Modifier.fillMaxSize()) {
         HorizontalPager(
             state = pagerState,
-            pageSize = PageSize.Fill,
-            modifier = Modifier.height(400.dp)
+            pageSize = PageSize.Fill
         ) {
-            if (state.isEmpty()) {
+            if (movieListPopularity.isEmpty()) {
                 Text(text = "is empty")
             } else {
                 CarrouselItem(
-                    image = state[it].poster_path,
-                    title = state[it].title,
-                    description = state[it].overview
+                    image = movieListPopularity[it].poster_path,
+                    title = movieListPopularity[it].title,
+                    description = movieListPopularity[it].overview,
                 )
             }
         }
-        Row(
-            Modifier
-                .height(30.dp)
-                .fillMaxWidth()
-                .background(Color.Transparent),
-            horizontalArrangement = Arrangement.Center
+        Card(
+            modifier = Modifier.align(Alignment.BottomCenter).padding(12.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.Transparent)
         ) {
-            repeat(4) { iteration ->
-                val color =
-                    if (pagerState.currentPage == iteration) White else LightGray
-                Box(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .background(color, CircleShape)
-                        .size(10.dp)
-                )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                repeat(movieListPopularity.size) { iteration ->
+                    val color =
+                        if (pagerState.currentPage == iteration) White else LightGray
+                    Box(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .background(color, CircleShape)
+                            .size(10.dp)
+                    )
+                }
             }
         }
+
     }
 }
+
 
 @Composable
 fun CarrouselItem(image: String, title: String, description: String) {
@@ -268,7 +271,18 @@ fun CarrouselItem(image: String, title: String, description: String) {
             painter = rememberAsyncImagePainter(model = "https://image.tmdb.org/t/p/original/${image}"),
             contentDescription = title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.4f)),
+                        startY = 0f,
+                        endY = 900f
+                    )
+                )
         )
         Column(
             modifier = Modifier
@@ -280,7 +294,7 @@ fun CarrouselItem(image: String, title: String, description: String) {
                 color = White,
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold,
-                )
+            )
             Text(
                 text = description,
                 color = White,
@@ -288,7 +302,7 @@ fun CarrouselItem(image: String, title: String, description: String) {
                 maxLines = 2,
                 lineHeight = 12.sp
             )
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }

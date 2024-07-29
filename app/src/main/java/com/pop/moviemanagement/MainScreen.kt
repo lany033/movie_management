@@ -1,5 +1,7 @@
 package com.pop.moviemanagement.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -9,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalProvider
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,11 +28,14 @@ fun MainScreen(analytics: AnalyticsManager, authManager: AuthManager) {
 
     val navController = rememberNavController()
 
-    Scaffold(bottomBar = { MyBottomBar(navController = navController) }
+    Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = { MyBottomBar(navController = navController) }
     ) {
-        BottomBarNavGraph(
-            navController = navController, modifier = Modifier.padding(it), analytics = analytics, authManager = authManager
-        )
+        Column(modifier = Modifier.padding(it)) {
+            BottomBarNavGraph(
+                navController = navController, analytics = analytics, authManager = authManager
+            )
+        }
+
     }
 }
 
