@@ -22,9 +22,10 @@ import com.pop.moviemanagement.ui.navigation.BottomBarNavGraph
 import com.pop.moviemanagement.ui.navigation.BottomBarNavItem
 import com.pop.moviemanagement.utils.AnalyticsManager
 import com.pop.moviemanagement.utils.AuthManager
+import com.pop.moviemanagement.utils.FirestoreManager
 
 @Composable
-fun MainScreen(analytics: AnalyticsManager, authManager: AuthManager) {
+fun MainScreen(analytics: AnalyticsManager, authManager: AuthManager, firestoreManager: FirestoreManager) {
 
     val navController = rememberNavController()
 
@@ -32,7 +33,7 @@ fun MainScreen(analytics: AnalyticsManager, authManager: AuthManager) {
     ) {
         Column(modifier = Modifier.padding(it)) {
             BottomBarNavGraph(
-                navController = navController, analytics = analytics, authManager = authManager
+                navController = navController, analytics = analytics, authManager = authManager, firestoreManager = firestoreManager
             )
         }
 

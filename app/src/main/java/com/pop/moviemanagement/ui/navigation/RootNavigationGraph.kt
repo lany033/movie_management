@@ -14,16 +14,18 @@ import com.pop.moviemanagement.ui.authScreen.LoginScreen
 import com.pop.moviemanagement.ui.authScreen.SignUpScreen
 import com.pop.moviemanagement.utils.AnalyticsManager
 import com.pop.moviemanagement.utils.AuthManager
+import com.pop.moviemanagement.utils.FirestoreManager
 
 @Composable
 fun RootNavigationGraph(context: Context, navController: NavHostController =  rememberNavController()) {
     var analytics: AnalyticsManager = AnalyticsManager(context)
     val authManager: AuthManager = AuthManager(context)
+    val firestoreManager = FirestoreManager(context)
 
     //val user: FirebaseUser? = authManager.getCurrentUser()
 
     NavHost(navController = navController, route = Graph.ROOT, startDestination = Graph.HOME) {
-        composable(route = Graph.HOME) { MainScreen(analytics, authManager) }
+        composable(route = Graph.HOME) { MainScreen(analytics, authManager, firestoreManager) }
 
     }
 }

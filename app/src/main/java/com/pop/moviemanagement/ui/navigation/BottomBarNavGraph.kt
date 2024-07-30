@@ -27,12 +27,14 @@ import com.pop.moviemanagement.ui.authScreen.ForgotPasswordScreen
 import com.pop.moviemanagement.ui.authScreen.SignUpScreen
 import com.pop.moviemanagement.utils.AnalyticsManager
 import com.pop.moviemanagement.utils.AuthManager
+import com.pop.moviemanagement.utils.FirestoreManager
 
 @Composable
 fun BottomBarNavGraph(
     navController: NavHostController,
     analytics: AnalyticsManager,
-    authManager: AuthManager
+    authManager: AuthManager,
+    firestoreManager: FirestoreManager
 ) {
     NavHost(
         navController = navController,
@@ -46,7 +48,7 @@ fun BottomBarNavGraph(
             }, authManager, navController)
         }
         composable(route = BottomBarNavItem.Movies.route) { MoviesScreen() }
-        composable(route = BottomBarNavItem.Theaters.route) { TheatersScreen() }
+        composable(route = BottomBarNavItem.Theaters.route) { TheatersScreen(firestoreManager) }
         composable(route = BottomBarNavItem.Store.route) { StoreScreen() }
         composable(route = BottomBarNavItem.More.route) { MoreScreen() }
         authNavGraph(

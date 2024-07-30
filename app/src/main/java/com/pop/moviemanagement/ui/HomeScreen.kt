@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -51,6 +49,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -236,7 +235,20 @@ fun HorizontalPagerHomeScreen(movieList: List<Movie>) {
             }
         }
         Card(
-            modifier = Modifier.align(Alignment.BottomCenter).padding(12.dp),
+            shape = RectangleShape,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter),
+            colors = CardDefaults.cardColors(containerColor = Color.Red)
+        ) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                Text(text = "Most Popular", color = White)
+            }
+        }
+        Card(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(12.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Transparent)
         ) {
             Row(
