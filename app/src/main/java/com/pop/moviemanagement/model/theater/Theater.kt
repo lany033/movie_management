@@ -5,6 +5,6 @@ data class Theater(
     var userId: String = "",
     val name: String = "",
     val address: String = "",
-    val favorite: Boolean = false,
+    var favorite: Boolean = false,
     val city: String = ""
 )
