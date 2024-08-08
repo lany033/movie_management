@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.pop.moviemanagement.R
+import com.pop.moviemanagement.ui.TheaterViewModel
 import kotlinx.coroutines.tasks.await
 
 
@@ -59,10 +60,12 @@ class AuthManager(private val context: Context) {
     fun signOut() {
         auth.signOut()
         signInClient.signOut()
+
     }
 
     fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser
+
     }
 
     private val googleSignInClient: GoogleSignInClient by lazy {

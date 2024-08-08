@@ -1,5 +1,6 @@
 package com.pop.moviemanagement.ui
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pop.moviemanagement.model.theater.Theater
@@ -39,6 +40,15 @@ class TheaterViewModel(private val firestoreManager: FirestoreManager): ViewMode
 
         }
     }
+
+    /*fun clearState() {
+        _theaterState.value = TheaterState()
+    }*/
+
+    fun isLogged(): Boolean {
+        return firestoreManager.userId.isNullOrEmpty()
+    }
+
 
     data class TheaterState(
         var theaters: List<Theater> = emptyList(),

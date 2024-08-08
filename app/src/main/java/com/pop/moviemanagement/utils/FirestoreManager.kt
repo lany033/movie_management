@@ -19,45 +19,40 @@ class FirestoreManager(context: Context) {
     val userId = auth.getCurrentUser()?.uid
 
     fun getTheatersFlow(): Flow<List<Theater>> = callbackFlow {
+        val theaterRef = firestore.collection("theaters").orderBy("name")
+        val theaters = mutableListOf<Theater>()
 
-        //val theaterRef = firestore.collection("theaters").whereEqualTo("userId", userId).orderBy("name")
-        if (userId == null) {
-            close(Exception("User ID is null"))
-        } else {
+        Log.d("FirestoreManager USER ID", "getTheatersFlow called with userId: $userId")
 
-            val theaterRef = firestore.collection("theaters").orderBy("name")
-            val favoriteRef = firestore.collection("users").document(userId).collection("favorites")
-            val theaters = mutableListOf<Theater>()
-
-            val subscription = theaterRef.addSnapshotListener { snapshot, _ ->
-                snapshot?.let { querySnapshot ->
-
-                    for (document in querySnapshot.documents) {
-                        val theater = document.toObject(Theater::class.java)
-
-                        theater?.id = document.id
-                        theater?.let { theaters.add(it) }
-                    }
-                    trySend(theaters).isSuccess
+        val subscription = theaterRef.addSnapshotListener { snapshot, _ ->
+            snapshot?.let { querySnapshot ->
+                theaters.clear()
+                for (document in querySnapshot.documents) {
+                    val theater = document.toObject(Theater::class.java)
+                    theater?.id = document.id
+                    theater?.let { theaters.add(it) }
                 }
-                favoriteRef.get().addOnCompleteListener { favorites ->
-                    if (favorites.isSuccessful) {
-                        val favoriteIds = favorites.result?.documents?.map { it.id } ?: emptyList()
-                        theaters.forEach { it.favorite = favoriteIds.contains(it.id) }
+
+                if (userId == null) {
+                    // Si no hay usuario logueado, enviamos la lista de teatros sin favoritos
+                    trySend(theaters).isSuccess
+                } else {
+                    // Si hay usuario logueado, obtenemos sus favoritos
+                    val favoriteRef = firestore.collection("users").document(userId).collection("favorites")
+                    favoriteRef.get().addOnCompleteListener { favorites ->
+                        if (favorites.isSuccessful) {
+                            val favoriteIds = favorites.result?.documents?.map { it.id } ?: emptyList()
+                            theaters.forEach { it.favorite = favoriteIds.contains(it.id) }
+                        } else {
+                            Log.e("FirestoreManager", "Error getting favorites", favorites.exception)
+                        }
                         trySend(theaters).isSuccess
-                    } else {
-                        Log.e(TAG, "Error getting favorites", favorites.exception)
                     }
                 }
             }
-            awaitClose { subscription.remove() }
         }
+        awaitClose { subscription.remove() }
     }
-
-    /*suspend fun updateTheater(theater: Theater){
-        val theaterRef = theater.id?.let { firestore.collection("theaters").document(it) }
-        theaterRef?.update("favorite", theater.favorite)
-    }*/
 
     suspend fun setFavorite(theaterId: String, isFavorite: Boolean) {
         if (userId == null) {

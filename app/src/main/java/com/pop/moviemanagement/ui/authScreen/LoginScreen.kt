@@ -1,6 +1,7 @@
 package com.pop.moviemanagement.ui.authScreen
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -81,6 +82,7 @@ fun LoginScreen(onSignUp: () -> Unit, authManager: AuthManager, analyticsManager
                        }
                     }
                 }
+                Log.d("USER LOGIN","${authManager.getCurrentUser()}")
             }
             is AuthRes.Error -> {
                 analyticsManager.logError("Error SignIn: ${account.errorMessage}")

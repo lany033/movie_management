@@ -76,6 +76,8 @@ dependencies {
     //icons
     implementation(libs.androidx.material.icons.extended)
 
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.4.0")
+
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")

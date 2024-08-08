@@ -1,5 +1,6 @@
 package com.pop.moviemanagement.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -65,6 +66,7 @@ import com.pop.moviemanagement.model.repository.MovieRepository
 import com.pop.moviemanagement.ui.navigation.AuthGraph
 import com.pop.moviemanagement.ui.navigation.BottomBarNavItem
 import com.pop.moviemanagement.utils.AuthManager
+import com.pop.moviemanagement.utils.FirestoreManager
 
 @Composable
 fun HomeScreen(
@@ -76,11 +78,14 @@ fun HomeScreen(
         MovieViewModel(MovieRepository())
     }
 
+
     val state by viewModel.state.collectAsState()
 
     var showDialog by remember { mutableStateOf(false) }
 
     var user = authManager.getCurrentUser()
+
+
 
     var onLogoutConfirmed: () -> Unit = {
         authManager.signOut()
@@ -88,6 +93,14 @@ fun HomeScreen(
             popUpTo(BottomBarNavItem.Home.route) {
                 inclusive = true
             }
+        }
+        val currentUser = authManager.getCurrentUser()
+        if (currentUser == null) {
+            // El usuario no está logueado
+            Log.d("AuthCheck", "No user logged in")
+        } else {
+            // El usuario está logueado
+            Log.d("AuthCheck", "User logged in: ${currentUser.uid}")
         }
     }
 
